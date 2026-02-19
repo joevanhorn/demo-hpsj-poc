@@ -192,6 +192,11 @@ resource "aws_secretsmanager_secret" "postgres_credentials" {
   description = "PostgreSQL credentials for Generic Database Connector"
 
   tags = local.common_tags
+
+  # SCP may block UntagResource — avoid tag drift failures
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 resource "aws_secretsmanager_secret_version" "postgres_credentials" {
