@@ -38,6 +38,21 @@ data "terraform_remote_state" "generic_db" {
 }
 
 # ==============================================================================
+# Okta SWG Security Group — allows Okta SWG IPs for EC2 instances
+# ==============================================================================
+
+module "okta_swg_sg" {
+  source = "../../../modules/okta-swg-security-group"
+  vpc_id = data.terraform_remote_state.generic_db.outputs.vpc_id
+
+  tags = {
+    Demo    = "HPSJ-Optum-CES"
+    Owner   = "joevanhorn"
+    Purpose = "Okta-SWG-Access"
+  }
+}
+
+# ==============================================================================
 # OPC AGENT — single instance for demo
 # ==============================================================================
 
@@ -59,7 +74,10 @@ module "opc_agents" {
   # Networking (from Generic DB module outputs)
   vpc_id             = data.terraform_remote_state.generic_db.outputs.vpc_id
   subnet_id          = data.terraform_remote_state.generic_db.outputs.subnet_ids[0]
-  security_group_ids = [data.terraform_remote_state.generic_db.outputs.security_group_id]
+  security_group_ids = [
+    data.terraform_remote_state.generic_db.outputs.security_group_id,
+    module.okta_swg_sg.security_group_id,
+  ]
 
   # Okta configuration
   okta_org_url    = "https://demo-hpsj-poc.okta.com"
@@ -87,4 +105,8 @@ output "opc_agents" {
     public_ip   = v.public_ip
     ssm_command = v.ssm_session_command
   }}
+}
+
+output "okta_swg_security_group_id" {
+  value = module.okta_swg_sg.security_group_id
 }

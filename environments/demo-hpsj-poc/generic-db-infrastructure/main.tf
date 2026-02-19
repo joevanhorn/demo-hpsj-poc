@@ -41,9 +41,9 @@ module "generic_db" {
   instance_class    = "db.t3.micro"
   allocated_storage = 20
 
-  # Demo settings — open access
-  publicly_accessible = true
-  db_allowed_cidrs    = ["0.0.0.0/0"]
+  # Restrict DB access to VPC CIDR (OPC agent connects from within VPC)
+  publicly_accessible = false
+  db_allowed_cidrs    = ["10.5.0.0/16"]
 
   tags = {
     Demo    = "HPSJ-Optum-CES"
