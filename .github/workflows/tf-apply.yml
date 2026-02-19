@@ -9,6 +9,7 @@ on:
         default: 'myorg'
         type: choice
         options:
+          - demo-hpsj-poc
           - myorg
           - production
           - staging
@@ -69,11 +70,10 @@ jobs:
       - name: Configure Terraform variables
         working-directory: environments/${{ inputs.environment }}/terraform
         run: |
-          cat > terraform.tfvars << EOF
-          okta_org_name  = "${{ secrets.OKTA_ORG_NAME }}"
-          okta_base_url  = "${{ secrets.OKTA_BASE_URL }}"
-          okta_api_token = "${{ secrets.OKTA_API_TOKEN }}"
-          EOF
+          # Write tfvars line-by-line to avoid heredoc masking issues with GitHub secrets
+          echo 'okta_org_name    = "${{ secrets.OKTA_ORG_NAME }}"'  > terraform.tfvars
+          echo 'okta_base_url    = "${{ secrets.OKTA_BASE_URL }}"' >> terraform.tfvars
+          echo 'okta_api_token   = "${{ secrets.OKTA_API_TOKEN }}"' >> terraform.tfvars
 
       - name: Terraform Init
         working-directory: environments/${{ inputs.environment }}/terraform

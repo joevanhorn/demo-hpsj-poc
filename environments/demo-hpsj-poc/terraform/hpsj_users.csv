@@ -1,0 +1,78 @@
+login,email,first_name,last_name,department,title,access_group
+maria.santos@hpsj.example.com,maria.santos@hpsj.example.com,Maria,Santos,Claims,Director of Claims,enterprise_admin
+david.chen@hpsj.example.com,david.chen@hpsj.example.com,David,Chen,Claims,Manager of Claims Processing,enterprise_admin
+patricia.williams@hpsj.example.com,patricia.williams@hpsj.example.com,Patricia,Williams,Configuration,Director of Configuration,enterprise_admin
+robert.taylor@hpsj.example.com,robert.taylor@hpsj.example.com,Robert,Taylor,Configuration,Manager of Configuration,enterprise_admin
+james.wilson@hpsj.example.com,james.wilson@hpsj.example.com,James,Wilson,IS,Director of Technology Operations,enterprise_admin
+sarah.johnson@hpsj.example.com,sarah.johnson@hpsj.example.com,Sarah,Johnson,IS,Director of Business Intelligence,enterprise_admin
+michael.brown@hpsj.example.com,michael.brown@hpsj.example.com,Michael,Brown,IS,Enterprise Architect,enterprise_admin
+linda.martinez@hpsj.example.com,linda.martinez@hpsj.example.com,Linda,Martinez,Claims,Manager of Provider Disputes,enterprise_admin
+kevin.nguyen@hpsj.example.com,kevin.nguyen@hpsj.example.com,Kevin,Nguyen,IS,Senior Systems Administrator,administrator
+jennifer.lee@hpsj.example.com,jennifer.lee@hpsj.example.com,Jennifer,Lee,IS,Database Administrator Senior,administrator
+thomas.garcia@hpsj.example.com,thomas.garcia@hpsj.example.com,Thomas,Garcia,IS,DevOps Engineer Lead,administrator
+amanda.clark@hpsj.example.com,amanda.clark@hpsj.example.com,Amanda,Clark,IS,Senior DevOps Engineer,administrator
+christopher.lewis@hpsj.example.com,christopher.lewis@hpsj.example.com,Christopher,Lewis,IS,Senior Information Security Analyst,administrator
+jessica.robinson@hpsj.example.com,jessica.robinson@hpsj.example.com,Jessica,Robinson,IS,Security Analyst Associate,administrator
+daniel.walker@hpsj.example.com,daniel.walker@hpsj.example.com,Daniel,Walker,IS,Systems Administrator Senior,administrator
+emily.hall@hpsj.example.com,emily.hall@hpsj.example.com,Emily,Hall,IS,Manager of IT Operations,administrator
+matthew.allen@hpsj.example.com,matthew.allen@hpsj.example.com,Matthew,Allen,IS,Manager of Application Development,administrator
+rachel.young@hpsj.example.com,rachel.young@hpsj.example.com,Rachel,Young,IS,Manager of Information Security,administrator
+brandon.king@hpsj.example.com,brandon.king@hpsj.example.com,Brandon,King,Configuration,Configuration Analyst Senior,administrator
+stephanie.wright@hpsj.example.com,stephanie.wright@hpsj.example.com,Stephanie,Wright,Configuration,Configuration Analyst Intermediate,administrator
+andrew.lopez@hpsj.example.com,andrew.lopez@hpsj.example.com,Andrew,Lopez,Configuration,Supervisor of Enterprise Configuration,administrator
+nicole.hill@hpsj.example.com,nicole.hill@hpsj.example.com,Nicole,Hill,IS,Application Developer Senior,administrator
+ryan.scott@hpsj.example.com,ryan.scott@hpsj.example.com,Ryan,Scott,IS,Application Developer Specialist,administrator
+carmen.reyes@hpsj.example.com,carmen.reyes@hpsj.example.com,Carmen,Reyes,Claims,Claims Processor,claims_reviewer
+luis.hernandez@hpsj.example.com,luis.hernandez@hpsj.example.com,Luis,Hernandez,Claims,Claims Processor,claims_reviewer
+diana.torres@hpsj.example.com,diana.torres@hpsj.example.com,Diana,Torres,Claims,Claims Processor,claims_reviewer
+jose.ramirez@hpsj.example.com,jose.ramirez@hpsj.example.com,Jose,Ramirez,Claims,Claims Processor,claims_reviewer
+michelle.flores@hpsj.example.com,michelle.flores@hpsj.example.com,Michelle,Flores,Claims,Claims Processor,claims_reviewer
+ricardo.morales@hpsj.example.com,ricardo.morales@hpsj.example.com,Ricardo,Morales,Claims,Claims Processor,claims_reviewer
+ana.gutierrez@hpsj.example.com,ana.gutierrez@hpsj.example.com,Ana,Gutierrez,Claims,Claims Processor,claims_reviewer
+jorge.diaz@hpsj.example.com,jorge.diaz@hpsj.example.com,Jorge,Diaz,Claims,Claims Processor,claims_reviewer
+elena.castro@hpsj.example.com,elena.castro@hpsj.example.com,Elena,Castro,Claims,Claims Processor,claims_reviewer
+carlos.ruiz@hpsj.example.com,carlos.ruiz@hpsj.example.com,Carlos,Ruiz,Claims,Claims Processor,claims_reviewer
+rosa.mendez@hpsj.example.com,rosa.mendez@hpsj.example.com,Rosa,Mendez,Claims,Analyst Claims Data,claims_reviewer
+fernando.ortiz@hpsj.example.com,fernando.ortiz@hpsj.example.com,Fernando,Ortiz,Claims,Analyst Claims Data Senior,claims_reviewer
+isabela.vargas@hpsj.example.com,isabela.vargas@hpsj.example.com,Isabela,Vargas,Claims,Analyst Claims Lead,claims_reviewer
+marcos.silva@hpsj.example.com,marcos.silva@hpsj.example.com,Marcos,Silva,Claims,Analyst Claims Data,claims_reviewer
+laura.romero@hpsj.example.com,laura.romero@hpsj.example.com,Laura,Romero,Claims,Claims Quality Assurance Analyst,claims_reviewer
+pedro.jimenez@hpsj.example.com,pedro.jimenez@hpsj.example.com,Pedro,Jimenez,Claims,Claims Quality Assurance Analyst,claims_reviewer
+sofia.navarro@hpsj.example.com,sofia.navarro@hpsj.example.com,Sofia,Navarro,Claims,Claims Recovery Analyst,claims_reviewer
+gabriel.delgado@hpsj.example.com,gabriel.delgado@hpsj.example.com,Gabriel,Delgado,Claims,Claims Recovery Analyst,claims_reviewer
+valentina.cruz@hpsj.example.com,valentina.cruz@hpsj.example.com,Valentina,Cruz,Claims,Claims Refunds Specialist,claims_reviewer
+diego.ramos@hpsj.example.com,diego.ramos@hpsj.example.com,Diego,Ramos,Claims,Claims Refunds Specialist,claims_reviewer
+andrea.medina@hpsj.example.com,andrea.medina@hpsj.example.com,Andrea,Medina,Claims,Claims Adjustment Specialist,claims_reviewer
+miguel.aguilar@hpsj.example.com,miguel.aguilar@hpsj.example.com,Miguel,Aguilar,Claims,Claims Adjustment Specialist,claims_reviewer
+adriana.pena@hpsj.example.com,adriana.pena@hpsj.example.com,Adriana,Pena,Claims,Data Entry Clerk Claims,claims_reviewer
+oscar.herrera@hpsj.example.com,oscar.herrera@hpsj.example.com,Oscar,Herrera,Claims,Data Entry Clerk Claims,claims_reviewer
+mariana.sandoval@hpsj.example.com,mariana.sandoval@hpsj.example.com,Mariana,Sandoval,Claims,Supervisor Claims Processing,claims_reviewer
+rafael.guerrero@hpsj.example.com,rafael.guerrero@hpsj.example.com,Rafael,Guerrero,Claims,Supervisor Claims Quality,claims_reviewer
+teresa.fuentes@hpsj.example.com,teresa.fuentes@hpsj.example.com,Teresa,Fuentes,Claims,Claims Dispute Specialist,claims_reviewer
+alejandro.rios@hpsj.example.com,alejandro.rios@hpsj.example.com,Alejandro,Rios,Claims,Claims Dispute Specialist,claims_reviewer
+lucia.soto@hpsj.example.com,lucia.soto@hpsj.example.com,Lucia,Soto,Claims,Claims Processor,claims_reviewer
+pablo.vega@hpsj.example.com,pablo.vega@hpsj.example.com,Pablo,Vega,Claims,Claims Processor,claims_reviewer
+natalia.campos@hpsj.example.com,natalia.campos@hpsj.example.com,Natalia,Campos,Claims,Claims Processor,claims_reviewer
+karen.mitchell@hpsj.example.com,karen.mitchell@hpsj.example.com,Karen,Mitchell,Service Delivery,Director of Service Delivery,system_view_only
+brian.campbell@hpsj.example.com,brian.campbell@hpsj.example.com,Brian,Campbell,Service Delivery,Service Delivery Manager,system_view_only
+lisa.parker@hpsj.example.com,lisa.parker@hpsj.example.com,Lisa,Parker,Service Delivery,Director Enterprise System Data Integrity,system_view_only
+jason.evans@hpsj.example.com,jason.evans@hpsj.example.com,Jason,Evans,Service Delivery,Enterprise System Data Integrity Analyst Senior,system_view_only
+angela.edwards@hpsj.example.com,angela.edwards@hpsj.example.com,Angela,Edwards,Service Delivery,Enterprise System Data Integrity Analyst Associate,system_view_only
+eric.collins@hpsj.example.com,eric.collins@hpsj.example.com,Eric,Collins,Service Delivery,Enterprise System Data Integrity Auditor,system_view_only
+heather.stewart@hpsj.example.com,heather.stewart@hpsj.example.com,Heather,Stewart,Service Delivery,Enterprise System Data Integrity Coordinator,system_view_only
+timothy.sanchez@hpsj.example.com,timothy.sanchez@hpsj.example.com,Timothy,Sanchez,Service Delivery,Claims Configuration Program Manager,system_view_only
+cynthia.morris@hpsj.example.com,cynthia.morris@hpsj.example.com,Cynthia,Morris,Service Delivery,Process Improvement Analyst,system_view_only
+gregory.rogers@hpsj.example.com,gregory.rogers@hpsj.example.com,Gregory,Rogers,Service Delivery,Project Manager,system_view_only
+rebecca.reed@hpsj.example.com,rebecca.reed@hpsj.example.com,Rebecca,Reed,Pharmacy,Manager Clinical Pharmacy,system_view_only
+mark.cook@hpsj.example.com,mark.cook@hpsj.example.com,Mark,Cook,CMME,Member Benefits Administration Analyst,system_view_only
+kathleen.morgan@hpsj.example.com,kathleen.morgan@hpsj.example.com,Kathleen,Morgan,CMME,Manager Benefit Administration,system_view_only
+steven.bell@hpsj.example.com,steven.bell@hpsj.example.com,Steven,Bell,IS,End User Support Analyst,system_view_only
+laura.murphy@hpsj.example.com,laura.murphy@hpsj.example.com,Laura,Murphy,IS,End User Support Engineer,system_view_only
+donald.bailey@hpsj.example.com,donald.bailey@hpsj.example.com,Donald,Bailey,IS,Supervisor Customer Success,system_view_only
+sandra.rivera@hpsj.example.com,sandra.rivera@hpsj.example.com,Sandra,Rivera,IS,Technical Writer,system_view_only
+george.cox@hpsj.example.com,george.cox@hpsj.example.com,George,Cox,IS,Business Systems Analyst Intermediate,system_view_only
+deborah.howard@hpsj.example.com,deborah.howard@hpsj.example.com,Deborah,Howard,IS,Corporate Data Analyst Intermediate,system_view_only
+kenneth.ward@hpsj.example.com,kenneth.ward@hpsj.example.com,Kenneth,Ward,IS,Business Intelligence Analyst Intermediate,system_view_only
+sharon.torres@hpsj.example.com,sharon.torres@hpsj.example.com,Sharon,Torres,IS,Data Warehouse Analyst Intermediate,system_view_only
+paul.peterson@hpsj.example.com,paul.peterson@hpsj.example.com,Paul,Peterson,IS,Application Support Engineer Intermediate,system_view_only
+betty.gray@hpsj.example.com,betty.gray@hpsj.example.com,Betty,Gray,IS,Service Integration Engineer,system_view_only
