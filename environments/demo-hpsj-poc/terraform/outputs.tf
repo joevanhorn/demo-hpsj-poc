@@ -1,6 +1,6 @@
 output "optum_ces_app_id" {
-  description = "Optum CES SAML app ID (needed for Stage 2: enable entitlement management)"
-  value       = okta_app_saml.optum_ces.id
+  description = "Optum CES Generic DB Connector app ID"
+  value       = local.optum_ces_app_id
 }
 
 output "ces_group_ids" {
