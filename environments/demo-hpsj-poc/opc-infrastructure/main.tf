@@ -11,11 +11,11 @@ terraform {
   required_version = ">= 1.9.0"
 
   backend "s3" {
-    bucket         = "taskvantage-prod-tf-state"
+    bucket         = "okta-terraform-demo"
     key            = "Okta-GitOps/demo-hpsj-poc/opc-infrastructure/terraform.tfstate"
-    region         = "us-east-2"
+    region         = "us-east-1"
     encrypt        = true
-    dynamodb_table = "taskvantage-prod-tf-state-lock"
+    dynamodb_table = "okta-terraform-state-lock"
   }
 }
 
@@ -31,9 +31,9 @@ data "terraform_remote_state" "generic_db" {
   backend = "s3"
 
   config = {
-    bucket = "taskvantage-prod-tf-state"
+    bucket = "okta-terraform-demo"
     key    = "Okta-GitOps/demo-hpsj-poc/generic-db/terraform.tfstate"
-    region = "us-east-2"
+    region = "us-east-1"
   }
 }
 

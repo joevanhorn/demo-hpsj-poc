@@ -9,11 +9,11 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "taskvantage-prod-tf-state"
+    bucket         = "okta-terraform-demo"
     key            = "Okta-GitOps/demo-hpsj-poc/terraform.tfstate"
-    region         = "us-east-2"
+    region         = "us-east-1"
     encrypt        = true
-    dynamodb_table = "taskvantage-prod-tf-state-lock"
+    dynamodb_table = "okta-terraform-state-lock"
   }
 }
 
