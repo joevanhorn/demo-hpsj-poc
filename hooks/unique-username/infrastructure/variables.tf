@@ -9,7 +9,7 @@ variable "aws_region" {
 variable "project_name" {
   description = "Project name for resource naming"
   type        = string
-  default     = "unique-username-hook"
+  default     = "hpsj-unique-username-hook"
 }
 
 variable "okta_org_url" {
