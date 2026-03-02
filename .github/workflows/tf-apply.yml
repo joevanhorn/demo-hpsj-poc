@@ -75,6 +75,14 @@ jobs:
           echo 'okta_base_url    = "${{ secrets.OKTA_BASE_URL }}"' >> terraform.tfvars
           echo 'okta_api_token   = "${{ secrets.OKTA_API_TOKEN }}"' >> terraform.tfvars
 
+          # Hook variables (optional - only set if secrets exist)
+          if [ -n "${{ secrets.HOOK_URL }}" ]; then
+            echo 'unique_username_hook_url = "${{ secrets.HOOK_URL }}"' >> terraform.tfvars
+          fi
+          if [ -n "${{ secrets.HOOK_AUTH_TOKEN }}" ]; then
+            echo 'hook_auth_token = "${{ secrets.HOOK_AUTH_TOKEN }}"' >> terraform.tfvars
+          fi
+
       - name: Terraform Init
         working-directory: environments/${{ inputs.environment }}/terraform
         run: terraform init -upgrade

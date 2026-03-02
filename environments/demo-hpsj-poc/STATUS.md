@@ -1,6 +1,6 @@
 # HPSJ Optum CES Demo — Deployment Status
 
-**Last updated:** 2026-02-20
+**Last updated:** 2026-03-02
 **Okta Org:** demo-hpsj-poc.okta.com
 **AWS Account:** 357013128720 (us-east-2 for infra, us-east-1 for state)
 
@@ -35,11 +35,63 @@
 - [x] Okta SWG security group attached (via `modules/okta-swg-security-group`)
 - [x] IAM role with SSM permissions
 
+### Unique Username Hook Infrastructure
+- [x] Lambda function (`hooks/unique-username/lambda/handler.py`)
+- [x] API Gateway HTTP API (endpoint for Okta inline hook)
+- [x] Secrets Manager secret for Okta API token
+- [x] IAM role with CloudWatch Logs and Secrets Manager access
+- [x] `hook-deploy.yml` workflow for deployment
+- [x] `okta_inline_hook` Terraform resource (conditional on `HOOK_URL` secret)
+- [x] `tf-plan.yml` and `tf-apply.yml` updated with hook variable passthrough
+- [x] SQL_QUERIES.md with complete JDBC configuration reference
+
 ### Reusable Module Created
 - [x] `modules/okta-swg-security-group/` — creates SG from Okta managed prefix lists (mirrors Okta-SWG-All-US)
 
 ### Workflow Fixes
 - [x] `tf-plan.yml` and `tf-apply.yml` — added `demo-hpsj-poc` to dropdown, fixed heredoc→echo for tfvars
+
+---
+
+## Deployment Sequence
+
+### Step 1: Deploy Hook Lambda (automated)
+```bash
+gh workflow run hook-deploy.yml \
+  -f environment=demo-hpsj-poc \
+  -f hook=unique-username \
+  -f action=apply
+```
+This deploys Lambda + API Gateway and auto-stores the Okta API token in Secrets Manager.
+
+### Step 2: Set Hook URL in GitHub Secrets
+After Step 1 completes, copy the API Gateway endpoint from the workflow output and set it as a GitHub Environment secret:
+- **Secret:** `HOOK_URL` → API Gateway endpoint URL
+- **Secret:** `HOOK_AUTH_TOKEN` → A bearer token for authentication (generate any secure string)
+
+### Step 3: Deploy Okta Inline Hook (automated)
+```bash
+gh workflow run tf-apply.yml -f environment=demo-hpsj-poc
+```
+This creates the `okta_inline_hook` resource in Okta.
+
+### Step 4: Install OPC Connector Software (manual)
+```bash
+aws ssm start-session --target i-0a054f1edddfdd2a6 --region us-east-2
+```
+- Download the OPC installer from Okta Admin UI → Settings → Downloads → On-Prem Provisioning
+- Install the connector and register it with the `demo-hpsj-poc` Okta org
+- Configure the JDBC connection (see `SQL_QUERIES.md` for connection details and queries)
+
+### Step 5: Configure Provisioning in Okta (manual)
+- **Enable "Provisioning to App"** — set Update User SQL query (CRITICAL for entitlement import)
+- **Enable "Provisioning from App"** — enable User Import
+- **Associate the inline hook** on the Import tab
+
+### Step 6: Run Import & Verify (manual)
+- Import users (77 expected)
+- Verify entitlements are discovered (4 CES roles expected)
+- Enable entitlement management on the Governance tab
 
 ---
 
@@ -58,12 +110,14 @@ The OPC agent EC2 is running but the Okta On-Prem Connector software is not yet 
   - User: `oktaadmin`
   - Password: in Secrets Manager (`demo-hpsj-poc-use2-generic-db-credentials`)
   - JDBC driver: `postgresql-42.7.4.jar` (download URL in OPC terraform config)
+- [ ] Configure SQL queries per `SQL_QUERIES.md`
 
 ### 2. Configure Generic DB Connector App in Okta (Manual)
 - [ ] In Okta Admin UI → Applications → Optum CES (Generic DB Connector)
-- [ ] Configure provisioning settings (To App / From App)
-- [ ] Map user attributes between Okta profile and DB columns
-- [ ] Test the import — verify users and entitlements appear in Okta
+- [ ] Enable "Provisioning to App" + set Update User SQL query (CRITICAL for entitlement import)
+- [ ] Enable "Provisioning from App" (User Import)
+- [ ] Associate the "Unique Username Generator" inline hook on the Import tab
+- [ ] Test the import — verify 77 users and 4 entitlements appear in Okta
 - [ ] Enable user import schedule if desired
 
 ### 3. Enable Entitlement Management (Manual)
@@ -95,6 +149,8 @@ The OPC agent EC2 is running but the Okta On-Prem Connector software is not yet 
 | State Bucket | `okta-terraform-demo` (us-east-1) |
 | Credentials Secret | `demo-hpsj-poc-use2-generic-db-credentials` (us-east-2) |
 | VPC ID | See `terraform output` from generic-db stack |
+| Hook Lambda | Deployed to us-east-1 via `hook-deploy.yml` |
+| Hook State | `Okta-GitOps/demo-hpsj-poc/hooks/unique-username/terraform.tfstate` |
 
 ## Terraform State Paths
 
@@ -103,3 +159,4 @@ The OPC agent EC2 is running but the Okta On-Prem Connector software is not yet 
 | Okta Resources | `Okta-GitOps/demo-hpsj-poc/terraform.tfstate` |
 | Generic DB | `Okta-GitOps/demo-hpsj-poc/generic-db/terraform.tfstate` |
 | OPC Agent | `Okta-GitOps/demo-hpsj-poc/opc-infrastructure/terraform.tfstate` |
+| Unique Username Hook | `Okta-GitOps/demo-hpsj-poc/hooks/unique-username/terraform.tfstate` |

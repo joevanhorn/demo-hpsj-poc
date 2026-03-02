@@ -1,0 +1,103 @@
+name: Deploy Inline Hook Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'GitHub Environment for secrets (AWS_ROLE_ARN, OKTA_ORG_NAME, OKTA_BASE_URL)'
+        required: true
+        type: choice
+        options:
+          - demo-hpsj-poc
+      hook:
+        description: 'Hook to deploy (directory name under hooks/)'
+        required: true
+        type: choice
+        options:
+          - unique-username
+      action:
+        description: 'Terraform action'
+        required: true
+        type: choice
+        options:
+          - plan
+          - apply
+        default: plan
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    name: "${{ inputs.action }} - ${{ inputs.hook }}"
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: GitHubActions-HookDeploy-${{ inputs.hook }}
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Configure Terraform variables
+        working-directory: hooks/${{ inputs.hook }}/infrastructure
+        run: |
+          echo 'okta_org_url = "https://${{ secrets.OKTA_ORG_NAME }}.${{ secrets.OKTA_BASE_URL }}"' > terraform.tfvars
+
+      - name: Terraform Init
+        working-directory: hooks/${{ inputs.hook }}/infrastructure
+        run: terraform init -upgrade
+
+      - name: Terraform Plan
+        working-directory: hooks/${{ inputs.hook }}/infrastructure
+        run: |
+          terraform plan -no-color -out=tfplan 2>&1 | tee plan_output.txt
+
+      - name: Terraform Apply
+        if: inputs.action == 'apply'
+        working-directory: hooks/${{ inputs.hook }}/infrastructure
+        run: |
+          terraform apply -auto-approve tfplan 2>&1 | tee apply_output.txt
+
+      - name: Store Okta API Token in Secrets Manager
+        if: inputs.action == 'apply'
+        working-directory: hooks/${{ inputs.hook }}/infrastructure
+        run: |
+          SECRET_NAME=$(terraform output -raw okta_token_secret_name)
+          aws secretsmanager put-secret-value \
+            --secret-id "$SECRET_NAME" \
+            --secret-string "${{ secrets.OKTA_API_TOKEN }}"
+          echo "Okta API token stored in Secrets Manager: $SECRET_NAME"
+
+      - name: Show Outputs
+        if: inputs.action == 'apply'
+        working-directory: hooks/${{ inputs.hook }}/infrastructure
+        run: terraform output
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hook-deploy-${{ inputs.hook }}-${{ github.run_number }}
+          path: |
+            hooks/${{ inputs.hook }}/infrastructure/plan_output.txt
+            hooks/${{ inputs.hook }}/infrastructure/apply_output.txt
+          retention-days: 14
+
+      - name: Cleanup
+        if: always()
+        working-directory: hooks/${{ inputs.hook }}/infrastructure
+        run: |
+          rm -f terraform.tfvars tfplan plan_output.txt apply_output.txt
