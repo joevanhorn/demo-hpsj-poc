@@ -143,12 +143,31 @@ FROM user_entitlements WHERE status = 'ACTIVE'
 | Setting | Value |
 |---------|-------|
 | **User ID Column** | `id` (aliased from `user_id`) |
-| **JDBC Driver** | `org.postgresql.Driver` |
+| **JDBC Driver** | `org.postgresql.Driver` (see JDBC Driver Setup below) |
 | **Create User** | `PROCEDURE` type, call `create_user` |
 | **Update User** | `PROCEDURE` type, call `update_user` |
 | **Deactivate User** | `PROCEDURE` type, call `deactivate_user` |
 
 **Important**: Use `PROCEDURE` (not `FUNCTION`) for executeUpdate operations. Okta's connector uses `CALL` for procedures and `SELECT` for functions.
+
+## JDBC Driver Setup
+
+**CRITICAL**: The PostgreSQL JDBC driver must be placed in the SCIM server's `userlib` directory. The OPC Terraform module pre-stages the driver at `/installers/jdbc/postgresql-42.7.4.jar`, but the SCIM server does NOT automatically find it there.
+
+**Symptom**: Connection test from Okta fails. SCIM server logs show:
+```
+Failed to load driver class org.postgresql.Driver from HikariConfig class classloader
+```
+
+**Fix**: Copy the JDBC driver into the SCIM server's classloader path and restart:
+```bash
+sudo cp /installers/jdbc/postgresql-42.7.4.jar /opt/OktaOnPremScimServer/userlib/
+sudo systemctl restart OktaOnPremScimServer
+```
+
+The SCIM server's `-Dloader.path=/opt/OktaOnPremScimServer/userlib` JVM flag tells Spring Boot to load JARs from that directory. Without the driver there, HikariCP cannot create database connections.
+
+**Other databases**: The same pattern applies for any JDBC driver — MySQL, Oracle, etc. Copy the driver JAR to `/opt/OktaOnPremScimServer/userlib/` and restart.
 
 ## JML Lifecycle Workflows
 

@@ -532,6 +532,54 @@ This workflow is suitable for production use with proper remote state backend an
 
 ---
 
+## SCIM Server + Generic DB Connector
+
+### JDBC Driver Must Be in SCIM Server userlib Directory
+
+**Issue:** After installing the SCIM server and configuring the Generic DB Connector in Okta, the connection test fails. The SCIM server logs show:
+```
+Failed to load driver class org.postgresql.Driver from HikariConfig class classloader
+```
+
+**Root Cause:** The OPC Terraform module pre-stages the JDBC driver at `/installers/jdbc/postgresql-42.7.4.jar`, but the SCIM server only loads JARs from its own `userlib` directory (`/opt/OktaOnPremScimServer/userlib/`). The driver exists on the instance but is invisible to the SCIM server's Spring Boot classloader.
+
+**Fix:**
+```bash
+sudo cp /installers/jdbc/postgresql-42.7.4.jar /opt/OktaOnPremScimServer/userlib/
+sudo systemctl restart OktaOnPremScimServer
+```
+
+**Why:** The SCIM server runs with `-Dloader.path=/opt/OktaOnPremScimServer/userlib`, which tells Spring Boot's PropertiesLauncher to add JARs from that directory to the classpath. Without the driver there, HikariCP connection pool initialization fails.
+
+**Applies to all databases** — MySQL, Oracle, etc. Any JDBC driver must be copied to `userlib/`.
+
+### OPP Agent RPM Requires libXt
+
+**Issue:** Installing the OPP Agent RPM fails with:
+```
+error: Failed dependencies: libXt is needed by OktaProvisioningAgent
+```
+
+**Fix:**
+```bash
+sudo dnf install -y libXt
+```
+
+Then retry the RPM install. This is an X11 library dependency — not obvious for a headless server.
+
+### Amazon Corretto Repo Not Pre-configured on RHEL
+
+**Issue:** `sudo dnf install -y java-21-amazon-corretto-devel` fails with "No match for argument" on stock RHEL instances.
+
+**Fix:** Add the Corretto repository first:
+```bash
+sudo rpm --import https://yum.corretto.aws/corretto.key
+sudo curl -Lo /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+sudo dnf install -y java-21-amazon-corretto-devel
+```
+
+---
+
 ## Additional Resources
 
 - [Okta Terraform Provider Documentation](https://registry.terraform.io/providers/okta/okta/latest/docs)
